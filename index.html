@@ -297,6 +297,10 @@
         <p>请选择练习部分 (随机抽取100题)</p>
         <div id="sectionList" class="section-list">
             <button class="btn-section btn-all" onclick="startQuiz('all')">📚 全部随机 (100题)</button>
+            <div style="margin-bottom: 10px;">
+                <button class="btn-section" style="background: #fff0f6; border-color: #ffadd2; color: #eb2f96; font-weight: bold; width: 100%;" onclick="startSpecialQuiz()">💖 何倩小可爱专属 (100题)</button>
+                <p style="font-size: 0.75rem; color: #eb2f96; margin-top: 5px; text-align: center;">说明：第一、四、五部分各随机30题，第六部分随机10题</p>
+            </div>
             <!-- Sections will be injected here -->
         </div>
     </div>
@@ -405,6 +409,58 @@
         }
 
         currentQuizQuestions = shuffle(pool).slice(0, 100);
+        currentIndex = 0;
+        userAnswers = new Array(currentQuizQuestions.length).fill(null);
+        seconds = 0;
+        
+        switchScreen('quizScreen');
+        renderQuestion();
+        startTimer();
+    }
+
+    function startSpecialQuiz() {
+        const s6 = allQuestions.filter(q => q.section.includes("第六部分"));
+        const s1 = allQuestions.filter(q => q.section.includes("第一部分"));
+        const s4 = allQuestions.filter(q => q.section.includes("第四部分"));
+        const s5 = allQuestions.filter(q => q.section.includes("第五部分"));
+
+        if (s6.length < 10 || s1.length < 30 || s4.length < 30 || s5.length < 30) {
+            alert("题库数量不足，无法生成专属题集");
+            return;
+        }
+
+        const picked6 = shuffle([...s6]).slice(0, 10);
+        const picked1 = shuffle([...s1]).slice(0, 30);
+        const picked4 = shuffle([...s4]).slice(0, 30);
+        const picked5 = shuffle([...s5]).slice(0, 30);
+
+        currentQuizQuestions = shuffle([...picked6, ...picked1, ...picked4, ...picked5]);
+        currentIndex = 0;
+        userAnswers = new Array(currentQuizQuestions.length).fill(null);
+        seconds = 0;
+        
+        switchScreen('quizScreen');
+        renderQuestion();
+        startTimer();
+    }
+
+    function startSpecialQuiz() {
+        const s6 = allQuestions.filter(q => q.section.includes("第六部分"));
+        const s1 = allQuestions.filter(q => q.section.includes("第一部分"));
+        const s4 = allQuestions.filter(q => q.section.includes("第四部分"));
+        const s5 = allQuestions.filter(q => q.section.includes("第五部分"));
+
+        if (s6.length < 10 || s1.length < 30 || s4.length < 30 || s5.length < 30) {
+            alert("题库数量不足，无法生成专属题集");
+            return;
+        }
+
+        const picked6 = shuffle([...s6]).slice(0, 10);
+        const picked1 = shuffle([...s1]).slice(0, 30);
+        const picked4 = shuffle([...s4]).slice(0, 30);
+        const picked5 = shuffle([...s5]).slice(0, 30);
+
+        currentQuizQuestions = shuffle([...picked6, ...picked1, ...picked4, ...picked5]);
         currentIndex = 0;
         userAnswers = new Array(currentQuizQuestions.length).fill(null);
         seconds = 0;
